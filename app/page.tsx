@@ -411,7 +411,7 @@ function HomeInner() {
             <div className="detail-icon">📅</div>
             <h3>Tanggal & Waktu</h3>
             <p>Minggu, 07 Desember 2025</p>
-            <p>Pukul 09.00 – 13.00 WIB</p>
+            <p>Pukul 08.00 – SELESAI</p>
           </motion.div>
 
           {/* LOKASI + TOMBOL MAPS */}
