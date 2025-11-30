@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useState, useRef, type FormEvent } from "react";
+import { useEffect, useState, useRef, Suspense } from "react";
+import type { FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
 
 type TimeLeft = {
@@ -21,7 +22,7 @@ type RSVPItem = {
 
 const eventDate = new Date("2025-12-07T09:00:00+07:00");
 
-export default function Home() {
+function HomeInner() {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({
     days: 0,
     hours: 0,
@@ -600,5 +601,21 @@ export default function Home() {
         {isPlaying ? "🔊" : "🔈"}
       </div>
     </main>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="page">
+          <div style={{ padding: "2rem", textAlign: "center" }}>
+            Memuat undangan...
+          </div>
+        </main>
+      }
+    >
+      <HomeInner />
+    </Suspense>
   );
 }
