@@ -591,15 +591,6 @@ function HomeInner() {
         <br />
         <b>Eka &amp; Triyan</b>
       </footer>
-
-      {/* Tombol Musik */}
-      <div
-        className="music-btn"
-        onClick={isPlaying ? stopMusic : playMusic}
-        title={isPlaying ? "Matikan musik" : "Putar musik"}
-      >
-        {isPlaying ? "🔊" : "🔈"}
-      </div>
     </main>
   );
 }
