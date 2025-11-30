@@ -1,8 +1,9 @@
 import { MongoClient } from "mongodb";
 
 const uri = process.env.MONGODB_URI;
+
 if (!uri) {
-  throw new Error("Please define the MONGODB_URI environment variable");
+  throw new Error("MONGODB_URI tidak terdefinisi di environment variable");
 }
 
 const options = {};
@@ -11,7 +12,7 @@ let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
 
 declare global {
-  // supaya tidak double koneksi di dev
+  // biar tidak double koneksi di dev
   // eslint-disable-next-line no-var
   var _mongoClientPromise: Promise<MongoClient> | undefined;
 }

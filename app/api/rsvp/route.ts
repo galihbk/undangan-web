@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import clientPromise from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
 
+export const runtime = "nodejs"; // PENTING: jangan Edge
+export const dynamic = "force-dynamic"; // PENTING: jangan di-prerender
+
 type RSVPItem = {
   _id?: ObjectId;
   nama: string;
@@ -21,14 +24,17 @@ const getCollection = async () => {
 export async function GET() {
   try {
     const collection = await getCollection();
-    const docs = await collection
-      .find({})
-      .sort({ created_at: 1 })
-      .toArray();
+    const docs = await collection.find({}).sort({ created_at: 1 }).toArray();
+
+    // convert ObjectId ke string biar aman dikirim ke client
+    const cleaned = docs.map((d) => ({
+      ...d,
+      _id: d._id?.toString(),
+    }));
 
     return NextResponse.json({
       success: true,
-      data: docs,
+      data: cleaned,
     });
   } catch (err) {
     console.error("Error GET /api/rsvp:", err);
@@ -61,10 +67,15 @@ export async function POST(req: Request) {
     const collection = await getCollection();
     const result = await collection.insertOne(newItem);
 
+    const saved = {
+      ...newItem,
+      _id: result.insertedId.toString(),
+    };
+
     return NextResponse.json({
       success: true,
       message: "RSVP tersimpan di MongoDB",
-      data: { ...newItem, _id: result.insertedId },
+      data: saved,
     });
   } catch (err) {
     console.error("Error POST /api/rsvp:", err);
