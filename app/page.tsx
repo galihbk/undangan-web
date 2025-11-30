@@ -13,6 +13,7 @@ type TimeLeft = {
 };
 
 type RSVPItem = {
+  _id?: string;
   nama: string;
   hadir: string;
   jumlah: string;
@@ -126,7 +127,6 @@ function HomeInner() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const f = e.currentTarget;
-
     const formData = new FormData(f);
 
     const payload: RSVPItem = {
@@ -151,21 +151,19 @@ function HomeInner() {
         return;
       }
 
+      const saved: RSVPItem = data.data;
+
       alert(
-        `Terima kasih, ${payload.nama}!\n\n` +
-          `Status: ${payload.hadir}\n` +
-          `Jumlah tamu: ${payload.jumlah}\n` +
-          `Pesan: ${payload.pesan}\n\n` +
-          "RSVP kamu sudah tersimpan di file rsvp.json ✅"
+        `Terima kasih, ${saved.nama}!\n\n` +
+          `Status: ${saved.hadir}\n` +
+          `Jumlah tamu: ${saved.jumlah}\n` +
+          `Pesan: ${saved.pesan}\n\n` +
+          "RSVP kamu sudah tersimpan ✅"
       );
 
       f.reset();
 
-      // Tambah ke list lokal tanpa reload
-      setRsvpList((prev) => [
-        ...prev,
-        { ...payload, created_at: new Date().toISOString() },
-      ]);
+      setRsvpList((prev) => [...prev, saved]);
     } catch (err) {
       console.error(err);
       alert("Terjadi kesalahan saat mengirim RSVP.");
@@ -174,7 +172,6 @@ function HomeInner() {
     }
   };
 
-  // URL Google Maps lokasi (punya kamu)
   const mapsUrl = "https://maps.app.goo.gl/ZiGdtLa5AkV5SNSY9";
 
   return (
@@ -184,93 +181,54 @@ function HomeInner() {
       <div className="bg-orb orb2" />
       <div className="bg-orb orb3" />
 
+      {/* Falling petals */}
+      <div className="petal-container">
+        <span className="petal petal-1" />
+        <span className="petal petal-2" />
+        <span className="petal petal-3" />
+        <span className="petal petal-4" />
+        <span className="petal petal-5" />
+        <span className="petal petal-6" />
+        <span className="petal petal-7" />
+        <span className="petal petal-8" />
+        <span className="petal petal-9" />
+        <span className="petal petal-10" />
+        <span className="petal petal-11" />
+        <span className="petal petal-12" />
+      </div>
+
       {/* INTRO OVERLAY */}
       {showIntro && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 999,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            background:
-              "radial-gradient(circle at top, rgba(0,0,0,0.72), rgba(0,0,0,0.9))",
-            color: "#fff",
-            padding: "1.5rem",
-          }}
-        >
+        <div className="intro-overlay">
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            style={{
-              maxWidth: 420,
-              width: "100%",
-              textAlign: "center",
-              borderRadius: 24,
-              padding: "1.8rem 1.5rem 1.6rem",
-              background:
-                "linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03))",
-              border: "1px solid rgba(255,255,255,0.35)",
-              backdropFilter: "blur(10px)",
-              boxShadow: "0 18px 50px rgba(0,0,0,0.5)",
-            }}
+            className="intro-card"
           >
-            <p
-              style={{
-                fontSize: "0.8rem",
-                letterSpacing: "0.16em",
-                textTransform: "uppercase",
-                marginBottom: "0.7rem",
-                opacity: 0.9,
-              }}
-            >
-              Undangan Pernikahan
-            </p>
+            <p className="intro-label">Undangan Pernikahan</p>
 
-            <h2
-              style={{
-                fontSize: "1.7rem",
-                marginBottom: "0.2rem",
-                fontWeight: 600,
-              }}
-            >
-              Eka &amp; Triyan
-            </h2>
+            <h2 className="intro-names">Eka &amp; Triyan</h2>
 
-            <p style={{ fontSize: "0.9rem", marginBottom: "1.2rem" }}>
+            <p className="intro-to">
               Kepada Yth. Bapak/Ibu/Saudara/i
               <br />
-              <span style={{ fontWeight: 600 }}>{guestName}</span>
+              <span>{guestName}</span>
             </p>
 
-            <p
-              style={{
-                fontSize: "0.85rem",
-                marginBottom: "1.4rem",
-                opacity: 0.9,
-              }}
-            >
+            <p className="intro-text">
               Tanpa mengurangi rasa hormat, dengan ini kami mengundang Anda
               untuk hadir dan memberi doa restu pada hari bahagia kami.
             </p>
 
             <button
               onClick={handleOpenInvitation}
-              className="btn btn-primary"
-              style={{ width: "100%", justifyContent: "center" }}
+              className="btn btn-primary intro-btn"
             >
               Buka Undangan ✨
             </button>
 
-            <p
-              style={{
-                fontSize: "0.7rem",
-                marginTop: "0.75rem",
-                opacity: 0.8,
-              }}
-            >
+            <p className="intro-note">
               *Pastikan suara perangkat Anda tidak dalam keadaan mute
             </p>
           </motion.div>
@@ -453,7 +411,7 @@ function HomeInner() {
             <div className="detail-icon">📅</div>
             <h3>Tanggal & Waktu</h3>
             <p>Minggu, 07 Desember 2025</p>
-            <p>Pukul 08.00 – SELESAI WIB</p>
+            <p>Pukul 09.00 – 13.00 WIB</p>
           </motion.div>
 
           {/* LOKASI + TOMBOL MAPS */}
@@ -557,7 +515,7 @@ function HomeInner() {
             </button>
           </motion.form>
 
-          {/* LIST RSVP DI SEBELAH KANAN - FORMAT KOMENTAR */}
+          {/* LIST RSVP */}
           <motion.div
             className="rsvp-comment-list"
             initial={{ opacity: 0, x: 40 }}
@@ -577,7 +535,10 @@ function HomeInner() {
             ) : (
               <div className="comment-scroll">
                 {rsvpList.map((item, index) => (
-                  <div key={index} className="rsvp-comment">
+                  <div
+                    key={item._id ?? index.toString()}
+                    className="rsvp-comment"
+                  >
                     <div className="comment-head">
                       <span className="comment-name">{item.nama}</span>
                       <span
@@ -603,6 +564,15 @@ function HomeInner() {
         <br />
         <b>Eka &amp; Triyan</b>
       </footer>
+
+      {/* Tombol Musik */}
+      <div
+        className="music-btn"
+        onClick={isPlaying ? stopMusic : playMusic}
+        title={isPlaying ? "Matikan musik" : "Putar musik"}
+      >
+        {isPlaying ? "🔊" : "🔈"}
+      </div>
     </main>
   );
 }
