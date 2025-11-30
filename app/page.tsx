@@ -238,21 +238,22 @@ function HomeInner() {
             >
               Eka &amp; Triyan
             </h2>
-            <p style={{ fontSize: "0.85rem", marginBottom: "1.2rem" }}>
-              Kepada Yth:
+
+            <p style={{ fontSize: "0.9rem", marginBottom: "1.2rem" }}>
+              Kepada Yth. Bapak/Ibu/Saudara/i
               <br />
               <span style={{ fontWeight: 600 }}>{guestName}</span>
             </p>
 
             <p
               style={{
-                fontSize: "0.8rem",
+                fontSize: "0.85rem",
                 marginBottom: "1.4rem",
                 opacity: 0.9,
               }}
             >
-              Mohon maaf apabila ada kesalahan dalam penulisan nama dan gelar.
-              Klik tombol di bawah ini untuk membuka undangan.
+              Tanpa mengurangi rasa hormat, dengan ini kami mengundang Anda
+              untuk hadir dan memberi doa restu pada hari bahagia kami.
             </p>
 
             <button
@@ -291,10 +292,10 @@ function HomeInner() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
           >
-            <span className="tagline">Undangan Khusus Untuk Anda</span>
+            <span className="tagline">Bismillahirrahmanirrahim</span>
 
             <h1 className="title">
-              Dengan Hormat,
+              Kepada Yth.
               <motion.span
                 className="highlight"
                 initial={{ opacity: 0.4 }}
@@ -309,8 +310,9 @@ function HomeInner() {
             </h1>
 
             <p className="lead">
-              Kami mengundang Anda untuk hadir dan menjadi bagian dari momen
-              istimewa yang penuh cerita, tawa, dan doa baik.
+              Dengan penuh rasa syukur, kami mengundang Anda untuk hadir dan
+              menyaksikan hari di mana dua doa baik dipertemukan dalam satu
+              ikatan bernama pernikahan.
             </p>
 
             <div className="hero-buttons">
@@ -377,7 +379,8 @@ function HomeInner() {
         >
           <h2 className="fancy-title">Profil Mempelai 💍</h2>
           <p>
-            Dengan segala kerendahan hati, kami mempersembahkan kisah dua insan.
+            Dengan segala kerendahan hati, kami mempersembahkan kisah dua insan
+            yang dipertemukan dalam satu niat baik.
           </p>
         </motion.div>
 
@@ -395,9 +398,9 @@ function HomeInner() {
               Putra dari Bapak <b>Amirudin</b> & Ibu <b>Manisah</b>
             </p>
             <p className="desc">
-              Pria sederhana yang selalu percaya bahwa cinta adalah perjalanan
-              jauh, bukan tujuan akhir. Kini ia berani melangkah bersama
-              pendamping hidupnya.
+              Pria yang tumbuh dengan kesederhanaan dan kerja keras, yang
+              percaya bahwa setiap langkah kecil akan terasa lengkap ketika
+              dijalani bersama pasangan yang tepat.
             </p>
           </motion.div>
 
@@ -414,8 +417,9 @@ function HomeInner() {
               Putri dari Bapak <b>Dody Cahyono</b> & Ibu <b>Ratinah</b>
             </p>
             <p className="desc">
-              Sosok lembut dan penuh senyum, yang percaya bahwa setiap pertemuan
-              adalah takdir yang sudah tertulis indah dari Sang Maha Kuasa.
+              Sosok lembut yang selalu menyimpan senyum di setiap cerita, yakin
+              bahwa pertemuan ini bukan kebetulan, melainkan jawaban dari
+              doa-doa yang diam-diam dipanjatkan.
             </p>
           </motion.div>
         </div>
@@ -431,7 +435,10 @@ function HomeInner() {
           transition={{ duration: 0.8 }}
         >
           <h2 className="fancy-title">Detail Acara ✦</h2>
-          <p>Catat waktunya agar tidak berhalangan hadir.</p>
+          <p>
+            Berikut adalah waktu dan tempat di mana cerita kami akan resmi
+            dimulai. Kami sangat berharap Anda dapat hadir.
+          </p>
         </motion.div>
 
         <div className="details-grid details-grid-2">
@@ -485,7 +492,8 @@ function HomeInner() {
         >
           <h2 className="fancy-title">Konfirmasi Kehadiran</h2>
           <p>
-            Mohon bantu kami menyiapkan yang terbaik dengan mengisi form ini.
+            Kehadiran dan doa Anda merupakan hadiah paling berharga bagi kami.
+            Mohon isi form berikut sebagai bentuk konfirmasi kehadiran.
           </p>
         </motion.div>
 
@@ -500,7 +508,7 @@ function HomeInner() {
             transition={{ duration: 0.8 }}
           >
             <div className="form-group">
-              <label htmlFor="nama">Nama Lengkap</label>
+              <label htmlFor="nama">Nama Lengkap Tamu Undangan</label>
               <input
                 id="nama"
                 name="nama"
@@ -513,8 +521,8 @@ function HomeInner() {
               <label htmlFor="hadir">Status Kehadiran</label>
               <select id="hadir" name="hadir" required>
                 <option value="">Pilih salah satu</option>
-                <option value="Hadir">Hadir</option>
-                <option value="Tidak Hadir">Tidak Hadir</option>
+                <option value="Hadir">InsyaAllah Hadir</option>
+                <option value="Tidak Hadir">Belum Bisa Hadir</option>
               </select>
             </div>
 
@@ -535,7 +543,7 @@ function HomeInner() {
               <textarea
                 id="pesan"
                 name="pesan"
-                placeholder="Tulis ucapan atau pesan singkat..."
+                placeholder="Tulis ucapan atau pesan singkat untuk mempelai..."
               />
             </div>
 
@@ -562,7 +570,10 @@ function HomeInner() {
             {loadingList ? (
               <p className="no-comment">Memuat data tamu...</p>
             ) : rsvpList.length === 0 ? (
-              <p className="no-comment">Belum ada RSVP masuk.</p>
+              <p className="no-comment">
+                Belum ada RSVP masuk. Jadilah yang pertama mengirimkan doa
+                terbaik Anda. 🤍
+              </p>
             ) : (
               <div className="comment-scroll">
                 {rsvpList.map((item, index) => (
@@ -587,7 +598,8 @@ function HomeInner() {
       </section>
 
       <footer>
-        Terima kasih telah menjadi bagian dari hari bahagia kami 💛
+        Terima kasih telah bersedia menjadi bagian dari hari yang kami impikan
+        selama ini 💛
         <br />
         <b>Eka &amp; Triyan</b>
       </footer>
