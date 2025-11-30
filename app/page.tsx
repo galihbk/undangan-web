@@ -1,18 +1,35 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, type FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
 
+type TimeLeft = {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+};
+
+type RSVPItem = {
+  nama: string;
+  hadir: string;
+  jumlah: string;
+  pesan: string;
+  created_at?: string;
+};
+
+const eventDate = new Date("2025-12-07T09:00:00+07:00");
+
 export default function Home() {
-  const [timeLeft, setTimeLeft] = useState({
+  const [timeLeft, setTimeLeft] = useState<TimeLeft>({
     days: 0,
     hours: 0,
     minutes: 0,
     seconds: 0,
   });
   const [loadingRSVP, setLoadingRSVP] = useState(false);
-  const [rsvpList, setRsvpList] = useState([]);
+  const [rsvpList, setRsvpList] = useState<RSVPItem[]>([]);
   const [loadingList, setLoadingList] = useState(true);
   const [showIntro, setShowIntro] = useState(true);
 
@@ -25,7 +42,7 @@ export default function Home() {
       : "Nama Tamu Spesial";
 
   // ====== MUSIC ======
-  const audioRef = useRef(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
   // Inisialisasi audio
@@ -62,8 +79,6 @@ export default function Home() {
   };
 
   // ========== COUNTDOWN ==========
-  const eventDate = new Date("2025-12-07T09:00:00+07:00");
-
   useEffect(() => {
     const t = setInterval(() => {
       const now = new Date().getTime();
@@ -91,8 +106,8 @@ export default function Home() {
       try {
         const res = await fetch("/api/rsvp");
         const data = await res.json();
-        if (res.ok && data.success) {
-          setRsvpList(Array.isArray(data.data) ? data.data : []);
+        if (res.ok && data.success && Array.isArray(data.data)) {
+          setRsvpList(data.data as RSVPItem[]);
         } else {
           setRsvpList([]);
         }
@@ -107,15 +122,17 @@ export default function Home() {
     fetchRSVP();
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const f = e.target;
+    const f = e.currentTarget;
 
-    const payload = {
-      nama: f.nama.value,
-      hadir: f.hadir.value,
-      jumlah: f.jumlah.value || "1",
-      pesan: f.pesan.value || "-",
+    const formData = new FormData(f);
+
+    const payload: RSVPItem = {
+      nama: String(formData.get("nama") || ""),
+      hadir: String(formData.get("hadir") || ""),
+      jumlah: String(formData.get("jumlah") || "1"),
+      pesan: String(formData.get("pesan") || "-"),
     };
 
     try {
@@ -506,8 +523,8 @@ export default function Home() {
                 id="jumlah"
                 name="jumlah"
                 type="number"
-                min="1"
-                max="10"
+                min={1}
+                max={10}
                 placeholder="Contoh: 2"
               />
             </div>
@@ -573,6 +590,15 @@ export default function Home() {
         <br />
         <b>Eka &amp; Triyan</b>
       </footer>
+
+      {/* Tombol Musik */}
+      <div
+        className="music-btn"
+        onClick={isPlaying ? stopMusic : playMusic}
+        title={isPlaying ? "Matikan musik" : "Putar musik"}
+      >
+        {isPlaying ? "🔊" : "🔈"}
+      </div>
     </main>
   );
 }
